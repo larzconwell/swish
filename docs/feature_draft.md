@@ -43,13 +43,13 @@ when something wasn't given. `nil` is considered a falsey value.
 
 #### Number
 ```
-1        # Integer
+1        # Decimal
 1.0      # Float
 0xBADa55 # Hexidecimal
 0600     # Octal
 .42e-5   # Float with an exponent
 ```
-Numbers are a blanket type for integers, octals, hexidecimals, floats, etc. The size of the
+Numbers are a blanket type for decimals, octals, hexidecimals, floats, etc. The size of the
 numbers grow automatically when they overflow. `0` is the only falsey number value.
 
 #### String
@@ -275,7 +275,7 @@ return "value" 1.0
 ```
 When returning from functions, if no values are given `nil` is returned. Multiple values can be
 returned, and are seperated by spaces or commas. If returning at the global level, return can
-only return numbers(integers specifically), defaulting to `0` after which exits the process with
+only return numbers(decimals specifically), defaulting to `0` after which exits the process with
 the given return number.
 
 #### Exit
@@ -287,7 +287,7 @@ given.
 
 #### Append
 ```
-append(array value)
+append(array ...values)
 
 append object key, value
 ```
