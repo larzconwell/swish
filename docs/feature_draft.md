@@ -267,8 +267,6 @@ trap identifier {
 ```
 Trap will register a function body to call when the given signal is caught for the program.
 
-### Predeclared Functions
-
 #### Return
 ```
 return "value" 1.0
@@ -284,6 +282,9 @@ exit 1
 ```
 Exit will exit the process with the given number as the exit code, defaulting to `0` if none are
 given.
+
+
+### Predeclared Functions
 
 #### Append
 ```
