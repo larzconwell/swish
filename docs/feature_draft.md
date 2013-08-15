@@ -174,6 +174,14 @@ len() typeof() cmd()
 Other variable identifiers include the Unix signals in all caps. Details of the predeclared
 functions are discussed later.
 
+#### Variables
+Some variables are declared automatically for every Swish program, though these can be overwritten.
+The first and one of the most notable is the `argv` variable, it is a local Array identifier and
+lists the arguments given to the program. The next one worth mentioning is the `PATH` variable
+which is an exported Array identifier; it lists the directories to look for commands, and when it
+changes; the built-in commands that haven't been overwritten are updated. The rest of the
+environmental variables given to the Swish program are all assigned as exported String identifiers.
+
 ### Keywords
 ```
 until for in break continue
@@ -206,7 +214,8 @@ exported as an environmental variable use the `local` preidentifier before the i
 can also explicitly set the variable to export with the `export` preidentifier. Multiple values
 can be assigned at the same time(e.g. a function returning multiple values) using the following
 syntax: `name, name2 = expression` where identifiers are seperated by spaces or commas, if a
-preidentifier is given all the variables use it.
+preidentifier is given all the variables use it. When exported variables are given to commands,
+they are converted to Strings if not already.
 
 ### Scope
 Scopes are seperated by blocks(i.e. `{ [body] }`), and the current scope always inherits parent
