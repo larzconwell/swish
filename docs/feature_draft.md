@@ -192,7 +192,7 @@ Keywords are reserved and may not be used as identifiers.
 = += -= *= /= %= ||= &&=
 ( ) [ ] { } , ; ... . ~ :
 + - * / %
-& >> >>> &>> &>>> << | |&
+& >> >>> &>> &>>> << | &|
 ```
 
 ### Variables
@@ -362,4 +362,4 @@ operators direct various ways to redirect output.
 - `&>>>` Redirects stdout and stderr to the path given on the right appending contents.
 - `<<` Redirects the contents from the path on the right to the stdin of the function.
 - `|` Redirects the stdout of a left command to another on the right.
-- `|&` Redirects the stderr of a left command to another on the right.
+- `&|` Redirects the stderr of a left command to another on the right.
