@@ -11,3 +11,6 @@ str = "Multi-line strings can be disabled by using a \
 
 chars = "#{len str}" # Strings support interpolation, and replace the sequence
                      # with the first value the expression returns.
+
+str = "string"
+char = str[0] # Strings can be indexed in the same fashion as Arrays, except range indexing.

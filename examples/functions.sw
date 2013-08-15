@@ -12,7 +12,7 @@ add(num1 num2) {
 # These arguments can of course be sperated by commas or spaces. If no
 # arguments are given it only returns `nil`.
 
-# Functions include a variable called `arguments` which is an object with
+# Functions include a variable called `arguments` which is an Object with
 # the argument names and values.
 add(num1 num2) {
   num = 0
@@ -25,7 +25,7 @@ add(num1 num2) {
 }
 
 # Function arguments may be variadic, gathering all the arguments for it
-# into an array of values.
+# into an Array of values.
 add(...nums) {
   num = 0
 
@@ -36,7 +36,7 @@ add(...nums) {
   return num
 }
 
-# When calling functions the parenthesis are optional. Arguments are seperated
+# When calling Functions the parenthesis are optional. Arguments are seperated
 # by spaces or commas.
 add(10, 15, 1.0)
 add 10 15 1.0
