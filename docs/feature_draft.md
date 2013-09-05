@@ -33,7 +33,10 @@ name(arg1 arg2_0, arg2_1, arg3)
 name arg1 arg2_0, arg2_1, arg3
 ```
 When calling functions the parenthesis are optional. Arguments may be seperated by spaces or
-commas. Values that don't belong to another type are assumed to be function calls.
+commas. Values that don't belong to another type are assumed to be function calls, unless they
+are arguments to a function call in which case they are assumed to be `Pattern`s, that being
+said it is invalid to make function calls without parenthesis as a single argument to a
+function call.
 
 ### Types
 
