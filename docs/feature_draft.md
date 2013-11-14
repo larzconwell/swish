@@ -8,35 +8,42 @@
   Multi-line comments
 ##
 ```
-Comments with a single `#` continue until the end of the line. Comments with `##` continue until
-another `##` sequence is encountered. Comments do not nest.
+- Single line comments start with `#` and continue until the end of the line.
+- Multi-line comments start with `##` and continue until the next sequence of `##`.
+- Comments do not nest.
 
 ### Function Declarations
 ```
-name(arg ...arg2, arg3) {
+name(arg, ...arg2, arg3) {
   # Function body
 }
 ```
-Functions can have any number of arguments, and they are all optional. If the body doesn't have an
-explicit return statement at the end then it returns nil. Argument names are seperated by spaces
-or commas. Arguments that weren't given values, are set to nil. Functions also define a variable
-called `arguments` and it's an object of the argument names and values. Arguments may be variadic,
-these arguments are prepended with `...` and any arguments until the next argument are joined
-together into an array.
+- Arguments are optonal, if not supplied the value is `nil`, unless it's a variadic argument
+  (e.g. `...arg2`) then it will always be an `array`.
+- Arguments are seperated by spaces or commas, which is common throughout the language.
+- You can return any number of values from a function with `return`, each value is seperated by
+  spaces or commas. If no value is given to the `return` statement, or it wasn't given `nil` is
+  returned.
+- A local variable called `arguments` is supplied for all functions, which is an object of
+  argument names and the value given to it.
+- Arguments may be variadic by prepending `...` to the argument name, values given until the next
+  argument are joined into an `array`.
 
 ### Calling Functions
 ```
-name(arg1 arg2_0, arg2_1, arg3)
+name(arg1, arg2_0, arg2_1, arg3)
 
 # OR
 
-name arg1 arg2_0, arg2_1, arg3
+name arg1, [arg2_0, arg2_1]..., arg3
 ```
-When calling functions the parenthesis are optional. Arguments may be seperated by spaces or
-commas. Values that don't belong to another type are assumed to be function calls, unless they
-are arguments to a function call in which case they are assumed to be `Pattern`s, that being
-said it is invalid to make function calls without parenthesis as a single argument to a
-function call.
+- When calling functions, parenthesis are optional.
+- Parameters are seperated by spaces or commas.
+- Values that do not match another type are assumed to be function calls, unless they are used
+  as function parameters, or assignments in which case they're assumed to be a `pattern`.
+- When calling a function as a parameter for a function being called without parenthesis,
+  parenthesis are required, otherwise it's arguments would be mistaken as parameters for the
+  parent function.
 
 ### Types
 
