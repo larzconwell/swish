@@ -103,21 +103,20 @@ Some identifiers are predeclared and are described below.
 ### Keywords
 The following keywords are reserved and may not be used as identifiers.
 ```
-if else for in
-until break continue fallthrough
-switch case default
-return
+if      else   for       in
+until   break  continue  fallthrough
+switch  case   default   return
 ```
 
 ### Operators and Delimiters
 The following character sequences represent operators, delimiters, and other special tokens:
 ```
-! ++ -- && || ==
-!= < <= > >= =
-+= -= *= /= %= ||=
-&&= ( ) [ ] {
-} , ; + - *
-/ % ...
+!    ++  --   &&  ||  ==
+!=   <   <=   >   >=  =
++=   -=  *=   /=  %=  ||=
+&&=  (   )    [   ]   {
+}    ,   ;    +   -   *
+/    %   ...  :
 ```
 
 ### Number literals
@@ -564,12 +563,12 @@ Unary operators have the highest precedence.
 There are 5 precedence levels for binary operators. Multiplication operators bind the strongest,
 followed by addition operators, comparison, etc.:
 ```
-Precedence Operator
-5 * / %
-4 + -
-3 == != < <= > >=
-2 &&
-1 ||
+Precedence  Operator
+5           *   /   %
+4           +   -
+3           ==  !=  <  <=  >  >=
+2           &&
+1           ||
 ```
 
 Binary operators of the same precedence associate from left to right.
@@ -593,11 +592,11 @@ x = q * y + r and |r| < |y|
 
 with `x / y` [truncated towards zero](http://en.wikipedia.org/wiki/Modulo_operation).
 ```
- x y x / y x % y
- 5 3 1 2
--5 3 -1 -2
- 5 -3 -1 2
--5 -3 1 -2
+ x    y   x/y  x%y
+ 5    3    1    2
+-5    3   -1   -2
+ 5   -3   -1    2
+-5   -3    1   -2
 ```
 
 ### Comparison operators
@@ -806,11 +805,10 @@ iteration two values are produced the first being an index/key and the second wh
 is the value at the index/key. Either variable on the left may be a blank identifier to discard
 the value. The values produced are as follows:
 ```
-Iterator type 1st value 2nd value(if present)
-
-array index value at index
-string index see below
-object key value at key
+Iterator type  1st value  2nd value(if present)
+array          index      value at index
+string         index      see below
+object         key        value at key
 ```
 
 - For arrays, the iterations are done in increasing order starting from the element index 0.
