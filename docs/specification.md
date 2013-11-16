@@ -698,7 +698,8 @@ assignOp = [ addOp | mulOp | "||" | "&&" ] , "=" ;
 ```
 
 Each left operand must be addressable, that is; a variable, blank identifier, or index expression.
-Operands may be parenthesized.
+Operands may be parenthesized. Left operands may not have the "..." delimiter after the operand to
+destructure its value.
 
 If the number of left and right operands don't match, the left over operands on either side are
 left alone.
@@ -706,8 +707,6 @@ left alone.
 If a left operand is an identifier and it hasn't been declared, a variable with the corresponding
 value is declared. This variable may only be declared if it's a simple assignment with no optional
 binary operators.
-
-Left operands may not have the "..." delimiter after the operand to destructure its value.
 
 If assigning to an array index, you are able to assign a value to an index that's out-of-bounds.
 The value at the new index is set, and any index before it that are not set are given `nil` as a
@@ -727,8 +726,8 @@ n ||= "value"
 
 ### If statements
 If statements specify the conditional execution of two branches according to the value of a
-expression. If the expression evaluates to a truthy value(not `nil` or `0`), the `if` branch is
-executed, otherwise if an `else` branch is given it's executed.
+expression. If the expression(which must be single valued) evaluates to a truthy value(i.e. not
+`nil` or `0`), the `if` branch is executed, otherwise if an `else` branch is given it's executed.
 ```
 IfStatement = "if" , Expression , Block , [ "else" , ( IfStatement | Block ) ] ;
 ```
@@ -749,9 +748,9 @@ if x <= 20 {
 ```
 
 ### Switch statements
-Switch statements provide multi-way execution. An expression is compared to the cases inside the
-switch statements to determine which branch to execute. The first case that equals the switch
-expression triggers the execution of it's statements.
+Switch statements provide multi-way execution. An expression(which must be single valued) is
+compared to the cases inside the switch statements to determine which branch to execute. The first
+case that equals the switch expression triggers the execution of it's statements.
 ```
 SwitchStatement = "switch" , [ Expression ] , "{" , switchClause , "}" ;
 switchClause = switchCase , ":" , statementList ;
@@ -860,8 +859,9 @@ A until statement specifies a repeated execution of a block until a condition is
 UntilStatement = "until" , Expression , Block ;
 ```
 
-Until statements execute the block first then evaluate the condition expression afterwards, if the
-resulting value is truthy then the block doesn't execute another time.
+Until statements execute the block first then evaluate the condition expression(which must be
+single valued) afterwards, if the resulting value is truthy then the block doesn't execute another
+time.
 
 ### Return statements
 A return statement in a function terminates the execution of the function, a return statement in
