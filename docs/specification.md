@@ -88,7 +88,7 @@ To reflect idiomatic use, code examples in this document elide semicolons using 
 Identifiers name program entities such as variables and functions. An identifier is a sequence of
 one or more letters and digits, though the first character must be a letter.
 ```
-Identifier = letter , { letter | unicodeDigit };
+Identifier = letter , { letter | unicodeDigit } ;
 ```
 
 _Examples:_
@@ -217,13 +217,18 @@ _Examples:_
 ```
 
 ### Array literals
-Array literals create a new array type value with the given expressions separated by commas or
-spaces as the arrays items.
+Array literals create a new array type value with a list of values.
 ```
-ArrayLit = "[" , [ expressionList ] , "]" ;
+ArrayLit = "[" , [ expressionList | rangeLit ] , "]" ;
 expressionList = Expression , [ "..." ] , { ( itemSeparator ) , Expression , [ "..." ] } , [ "," ] ;
+rangeLit = [ Expression ] , ":" , Expression ;
 itemSeparator = "," | " " ;
 ```
+
+When creating a range array, the given expressions(which must be single valued) must yield a
+positive number typed value. The left expression may be omitted, which uses `0`. The right
+expression must be greater than or equal to the left expression(or `0`). An array of numbers are
+created from the left expression(or `0`) to the right expression minus one.
 
 _Examples:_
 ```
@@ -231,6 +236,8 @@ _Examples:_
 ["string"]
 [5 "string", ["array"]]
 [5,]
+[10:100]
+[:5]
 ```
 
 ### Object literals
@@ -445,9 +452,10 @@ Literal = NumberLit | StringLit | ArrayLit | ObjectLit ;
 ### Primary expressions
 Primary expressions are the operands for unary and binary expressions.
 ```
-PrimaryExpression = Operand | PrimaryExpression , ( Index | Call )
-Index = "[" , Expression , "]"
-Call = "(" , [ expressionList ] , ")"
+PrimaryExpression = Operand | PrimaryExpression , ( Index | Range | Call ) ;
+Index = "[" , Expression , "]" ;
+Range = "[" , [ Expression ] , ":" , [ Expression ] , "]" ;
+Call = "(" , [ expressionList ] , ")" ;
 ```
 
 _Examples:_
@@ -458,6 +466,8 @@ x
 (x + ".txt")
 add(1, 3, 6)
 a[1]
+a[1:2]
+a[:100]
 o["key"]
 {"key": 5}["key"]
 ```
@@ -492,6 +502,25 @@ value, exists = ["" ][1]
 ```
 The second value is `1` if the index or object key exists in the array or object, and `0` if out of
 bounds or the key doesn't exist in the object.
+
+### Ranges
+A primary expressions of the form
+```
+a[low:high]
+```
+Retrieves a range of elements of the array or string starting from `low`(or `0` if not given) up to
+`high-1`(or `len(a)-1` if not given).
+
+The range is possible if `0 <= low <= high <= len(a)`, otherwise it's out of range and only gets
+the items that are in the range, and if none are in range an empty array is returned.
+
+```
+arr = [1, 2, 3, 4, 5]
+arr[:len(arr)] # [1, 2, 3, 4, 5]
+arr[:] # [1, 2, 3, 4, 5]
+arr[2:] # [3, 4, 5]
+arr[4:5000] # [5]
+```
 
 ### Calls
 Given the expression
