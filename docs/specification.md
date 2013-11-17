@@ -514,6 +514,9 @@ Retrieves a range of elements of the array or string starting from `low`(or `0` 
 The range is possible if `0 <= low <= high <= len(a)`, otherwise it's out of range and only gets
 the items that are in the range, and if none are in range an empty array is returned.
 
+The resulting array has the same reference as the array being ranged, and assignments to indexes
+in the range will reflect in the original array.
+
 ```
 arr = [1, 2, 3, 4, 5]
 arr[:len(arr)] # [1, 2, 3, 4, 5]
