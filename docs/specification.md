@@ -455,7 +455,7 @@ Primary expressions are the operands for unary and binary expressions.
 PrimaryExpression = Operand | PrimaryExpression , ( Index | Range | Call ) ;
 Index = "[" , Expression , "]" ;
 Range = "[" , [ Expression ] , ":" , [ Expression ] , "]" ;
-Call = "(" , [ expressionList ] , ")" ;
+Call = [ "(" ] , [ expressionList ] , [ ")" ] ;
 ```
 
 _Examples:_
@@ -464,7 +464,8 @@ x
 2
 "string"
 (x + ".txt")
-add(1, 3, 6)
+add(1 3, 6)
+add 1 3, 6
 a[1]
 a[1:2]
 a[:100]
@@ -535,6 +536,9 @@ calls `add` with the arguments `1`, `x`, and `5`. Arguments may be multi-valued 
 evaluated before the function is called. If a function call has multiple return values and is
 called as an argument to another function call, the return values are used as arguments for the
 outer call.
+
+The only restriction to the types of expressions allowed in function calls, is no other function
+call is allowed as an argument.
 
 If the number of arguments given to the function aren't the same as the number when declared the
 parameters that don't have a value are set to `nil`.
