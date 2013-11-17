@@ -63,10 +63,11 @@ character sequence.
 ### Tokens
 There are four classes of tokens: _identifiers_, _keywords_, _operators and delimiters_, and
 _literals_. _White space_, formed from spaces(U+0020), horizontal tabs(U+0009),
-carriage returns(U+000D), and newlines(U+000A), are ignored except to separate tokens that would
-otherwise combine into a single token. Also, newlines or end of file may trigger the insertion of
-a semicolon. While breaking input into tokens, the next token is the longest sequence of
-characters that form a valid token.
+carriage returns(U+000D), and newlines(U+000A), are mostly ignored only being significant to
+separate tokens that would otherwise combine into a single token. Spaces are an exception being
+an optional way to seperate lists of items in place of commas(U+002C). Also, newlines or end of
+file may trigger the insertion of a semicolon. While breaking input into tokens, the next token is
+the longest sequence of characters that form a valid token.
 
 ### Semicolons
 The formal grammar uses semicolons(U+003B) as terminators in a number of productions. Swish
@@ -168,8 +169,8 @@ quotes. The text in the quotes, which may not contain newlines, forms the value 
 after backslash escapes have been interpreted. Backslash escapes are detailed below.
 
 Double quoted interpreted string literals also go through another interpretation step, which
-interprets a given expression inside the brackets of the sequence `${}` and replaces the sequence
-with the returned value represented as a string.
+interprets a given expression(which must be single valued) inside the brackets of the sequence
+`${}` and replaces the sequence with the returned value represented as a string.
 
 The following backslash values are escaped to the appropriate value:
 ```
@@ -216,18 +217,19 @@ _Examples:_
 ```
 
 ### Array literals
-Array literals create a new array type value with the given expressions separated by commas as
-the arrays items.
+Array literals create a new array type value with the given expressions separated by commas or
+spaces as the arrays items.
 ```
 ArrayLit = "[" , [ expressionList ] , "]" ;
-expressionList = Expression , [ "..." ] , { "," , Expression , [ "..." ] } , [ "," ] ;
+expressionList = Expression , [ "..." ] , { ( itemSeparator ) , Expression , [ "..." ] } , [ "," ] ;
+itemSeparator = "," | " " ;
 ```
 
 _Examples:_
 ```
 []
 ["string"]
-[5, "string", ["array"]]
+[5 "string", ["array"]]
 [5,]
 ```
 
@@ -236,15 +238,16 @@ Object literals create a new object type value. All values must have a key, and 
 string and number type.
 ```
 ObjectLit = "{" , [ objectList ] , "}" ;
-objectList = objectItem , { "," , objectItem } , [ "," ] ;
-objectItem = Expression , ":" , Expression ;
+objectList = objectItem , { ( itemSeparator ) , objectItem } , [ "," ] ;
+objectItem = Expression , ( keyValueSeparator ) , Expression ;
+keyValueSeparator = ":" | "=" ;
 ```
 
 _Examples:_
 ```
 {}
-{"key": "value"}
-{"key": "string", 5: {"key": "value"},}
+{"key" = "value"}
+{"key": "string" 5: {"key" = "value"},}
 ```
 
 
@@ -314,6 +317,13 @@ Two values of the same type are identical following the given rules:
 - Two objects are identical if the values point to the same reference
 - Two functions are identical if the values point to the same reference
 
+### Evaluation strategy
+When values are evaluated in expressions they are passed in different ways. The following rules
+define how different types should be evaluated.
+
+- String and number types are [pass by value](https://en.wikipedia.com/wiki/Evaluation_strategy#Call_by_value).
+- Nil, array, object, and function types are implemented as [pass by sharing](https://en.wikipedia.com/wiki/Evaluation_strategy#Call_by_sharing).
+
 
 ## Blocks
 A block is a possibly empty sequence of declarations and statements within brace brackets.
@@ -380,7 +390,7 @@ A function declaration binds an identifier to a function.
 ```
 FunctionDecl = Identifier , functionSignature , Block ;
 functionSignature = "(" , [ functionParamList ] , ")" ;
-functionParamList = functionParam , { "," , functionParam } , [ "," ] ;
+functionParamList = functionParam , { ( itemSeparator ) , functionParam } , [ "," ] ;
 functionParam = [ "..." ] , Identifier ;
 ```
 
@@ -401,9 +411,9 @@ _Examples:_
 ```
 add() {}
 
-add(num, num2) { return num + num2 }
+add(num, num2,) { return num + num2 }
 
-add(...nums, final) {
+add(...nums final) {
   ans = 0
 
   for _, v in arguments {
@@ -642,7 +652,7 @@ are evaluated in lexical left-to-right order.
 ## Statements
 Statements control execution.
 ```
-Statement = Declaration | Assignment | Block | ReturnStatement | 
+Statement = Declaration | Assignment | Block | ReturnStatement |
             BreakStatement | FallthroughStatement ContinueStatement |
             IfStatement | SwitchStatement | ForStatement | UntilStatement |
             EmptyStatement | ExpressionStatement | IncDecStatement ;
