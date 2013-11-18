@@ -86,9 +86,9 @@ To reflect idiomatic use, code examples in this document elide semicolons using 
 
 ### Identifiers
 Identifiers name program entities such as variables and functions. An identifier is a sequence of
-one or more letters and digits, though the first character must be a letter.
+one or more letters and digits.
 ```
-Identifier = letter , { letter | unicodeDigit } ;
+Identifier = ( letter | unicodeDigit ) , { letter | unicodeDigit } ;
 ```
 
 _Examples:_
@@ -679,6 +679,9 @@ converted, or the value can't be converted to the type) `nil` is returned.
 
 The conversions `number()` and `int()` function the same and the `float()` conversion exists to
 convert a value to a number with floating point precision.
+
+The `string()` conversion can convert any type, the string produced is the literal value.
+Converting a function to a string will produce a string of the function declaration.
 
 ### Order of evaluation
 When evaluating the operands of an expression, assignment, or return statement, all function calls
